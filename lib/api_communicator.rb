@@ -2,37 +2,28 @@ require 'rest-client'
 require 'json'
 require 'pry'
 
+def get_movies_from_api(movies)
+  # 
+  films_data = []
+  movies.each do |film_link|
+    response = RestClient.get(film_link)
+    json = JSON.parse(response)
+    films_data << json
+  end
+  return films_data
+end
+
 def get_character_movies_from_api(character_name)
   #make the web request
-  films_data = []
+  
   response_string = RestClient.get('http://www.swapi.co/api/people/')
   response_hash = JSON.parse(response_string)
 
   response_hash["results"].each do |character|
-    if character["name"] == character_name
-      character["films"].each do |film_link|
-        response = RestClient.get(film_link)
-        json = JSON.parse(response)
-        films_data << json
-      end
+    if character["name"].downcase.start_with?(character_name)
+      return {"films": character["films"], "name": character["name"]}
     end
   end
-
-  # films.each do |film_link|
-  #   response = RestClient.get(film_link)
-  #   json = JSON.parse(response)
-  #   films_data << json
-  # end
-  # iterate over the response hash to find the collection of `films` for the given
-  #   `character`
-  # collect those film API urls, make a web request to each URL to get the info
-  #  for that film
-  # return value of this method should be collection of info about each film.
-  #  i.e. an array of hashes in which each hash reps a given film
-  # this collection will be the argument given to `print_movies`
-  #  and that method will do some nice presentation stuff like puts out a list
-  #  of movies by title. Have a play around with the puts with other info about a given film.
-  return films_data
 end
 
 def print_movies(films)
@@ -42,14 +33,16 @@ def print_movies(films)
     puts "Release Date: #{film["release_date"]}"
     puts "Director: #{film["director"]}"
     puts ""
-
-    
   end
 end
 
 def show_character_movies(character)
   films = get_character_movies_from_api(character)
-  print_movies(films)
+  film_data = get_movies_from_api(films[:films])
+  puts film_data
+  print "\n"
+  print "Movies that #{films[:name]} is in:\n"
+  print_movies(film_data)
 end
 
 ## BONUS
