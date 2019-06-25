@@ -2,30 +2,44 @@ require 'rest-client'
 require 'json'
 require 'pry'
 
-def get_character_movies_from_api(character_name)
-  #make the web request
-  response_string = RestClient.get('http://www.swapi.co/api/people/')
-  response_hash = JSON.parse(response_string)
-
-  # iterate over the response hash to find the collection of `films` for the given
-  #   `character`
-  # collect those film API urls, make a web request to each URL to get the info
-  #  for that film
-  # return value of this method should be collection of info about each film.
-  #  i.e. an array of hashes in which each hash reps a given film
-  # this collection will be the argument given to `print_movies`
-  #  and that method will do some nice presentation stuff like puts out a list
-  #  of movies by title. Have a play around with the puts with other info about a given film.
+# Returning films for given character
+def films(character, response_hash)
+  films_list = []
+  response_hash["results"].each { |thing| thing["name"].downcase == character.downcase ?  films_list = thing["films"] : nil }
+  films_list
 end
 
-def print_movies(films)
+# Making a web request
+def make_web_request(path)
+  response_string = RestClient.get(path)
+  response_hash_movie = JSON.parse(response_string)
+end
+
+# Build collection of information on films
+def collect_the_films(urls)
+  collected_film_info = {}
+  urls.each { |path| collected_film_info[make_web_request(path)["title"]] = make_web_request(path) }
+  movie_collection = collected_film_info
+end
+
+def print_movies(movie_collection)
   # some iteration magic and puts out the movies in a nice list
+  movie_collection.each {|k,v| puts "#{k} was directed by #{v["director"]}" }
 end
 
-def show_character_movies(character)
-  films = get_character_movies_from_api(character)
-  print_movies(films)
+def get_character_movies_from_api(character)
+  #runs all the helper methods
+  response_hash = make_web_request('http://www.swapi.co/api/people/')
+  urls = films(character, response_hash)
+  movie_collection = collect_the_films(urls)
+  print_movies(movie_collection)
 end
+
+# def show_character_movies(character)
+#   get_character_movies_from_api(character)
+#   # films = get_character_movies_from_api(character)
+#   # print_movies(films)
+# end #this one isn't necessary if we just call the get_character_movies_from_api directly from the run.rb
 
 ## BONUS
 
