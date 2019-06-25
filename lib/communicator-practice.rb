@@ -1,4 +1,6 @@
-#!/usr/bin/env ruby
+
+
+  #!/usr/bin/env ruby
 
 require_relative "../lib/api_communicator.rb"
 require_relative "../lib/command_line_interface.rb"
@@ -29,7 +31,7 @@ def search
     puts "Enter a movie name"
     movie = gets.chomp.downcase
     begin
-      show_movie_info(movie)
+        get_movies_from_api(movie_name)
     rescue
       puts "Movie not found"
       search
@@ -37,23 +39,9 @@ def search
   when "3"
     puts "Search for a planet"
   when "4"
-    puts "Enter a vehicle"
-    vehicle = gets.chomp.downcase
-    begin
-      show_vehicle_info(vehicle)
-    rescue
-      puts "Vehicle not found"
-      search
-    end
+    puts "Search for a vehicle"
   when "5"
-    puts "Enter a starship name"
-    starship = gets.chomp.downcase
-    begin
-      show_starship_info(starship)
-    rescue
-      puts "Starship not found"
-      search
-    end
+    puts "Search for a planet"
   when "6"
     puts "Search for a planet"
   else
@@ -62,6 +50,7 @@ def search
 
   
 
-end
+  
 
+end
 search
