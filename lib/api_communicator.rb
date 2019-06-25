@@ -12,12 +12,11 @@ def get_character_movies_from_api(character_name)
           films_arr = ch["films"]  
         end
     end
-    films_arr
-
-   a =  RestClient.get(films_arr[0])
-
-   binding.pry
-
+    films_info = films_arr.map do |api_url| 
+      films_req = RestClient.get(api_url)
+      films_response = JSON.parse(films_req)
+    end 
+    films_info
   end
   # binding.pry 
 
@@ -32,7 +31,8 @@ def get_character_movies_from_api(character_name)
   #  of movies by title. Have a play around with the puts with other info about a given film.
 
 def print_movies(films)
-  # some iteration magic and puts out the movies in a nice list
+  films.each do |film| 
+  end   # some iteration magic and puts out the movies in a nice list
 end
 
 def show_character_movies(character)
