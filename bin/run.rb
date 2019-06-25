@@ -30,7 +30,14 @@ def search
   when "3"
     puts "Search for a planet"
   when "4"
-    puts "Search for a vehicle"
+    puts "Enter a vehicle"
+    vehicle = gets.chomp.downcase
+    begin
+      show_vehicle_info(vehicle)
+    rescue
+      puts "Vehicle not found"
+      search
+    end
   when "5"
     puts "Search for a planet"
   when "6"

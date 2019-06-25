@@ -14,8 +14,6 @@ def get_movies_from_api(movies)
 end
 
 def get_character_movies_from_api(character_name)
-  #make the web request
-  
   response_string = RestClient.get('http://www.swapi.co/api/people/')
   response_hash = JSON.parse(response_string)
 
@@ -44,6 +42,37 @@ def show_character_movies(character)
   print "Movies that #{films[:name]} is in:\n"
   print_movies(film_data)
 end
+
+def get_vehicle_info_from_api(vehicle_name)
+  # Pulls vehicle information from the API
+  # Returns: Vehicle hash for vehicle that matches input
+  response = RestClient.get('http://www.swapi.co/api/vehicles/')
+  response_hash = JSON.parse(response)
+
+  response_hash["results"].each do |vehicle|
+    if vehicle["name"].downcase.start_with?(vehicle_name)
+      return vehicle
+    end
+  end
+end
+
+def show_vehicle_info(vehicle_name)
+  vehicle = get_vehicle_info_from_api(vehicle_name)
+  print_vehicle_info(vehicle)
+end
+
+def print_vehicle_info(vehicle)
+  puts "\n"
+  puts "Name: #{vehicle["name"]}"
+  puts "Model: #{vehicle["model"]}"
+  puts "Manufacturer: #{vehicle["manufacturer"]}"
+  puts "Cost in credits: #{vehicle["cost_in_credits"]}"
+  puts "Length: #{vehicle["length"]}"
+  puts "Max Atmosphering Apeed: #{vehicle["max_atmosphering_speed"]}"
+  puts "Crew: #{vehicle["crew"]}"
+  puts "Passengers: #{vehicle["passengers"]}"
+end
+
 
 ## BONUS
 
