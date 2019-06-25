@@ -37,9 +37,6 @@ end
 def show_character_movies(character)
   films = get_character_movies_from_api(character)
   film_data = get_movies_from_api(films[:films])
-  puts film_data
-  print "\n"
-  print "Movies that #{films[:name]} is in:\n"
   print_movies(film_data)
 end
 
@@ -52,6 +49,9 @@ def get_vehicle_info_from_api(vehicle_name)
   response_hash["results"].each do |vehicle|
     if vehicle["name"].downcase.start_with?(vehicle_name)
       return vehicle
+    end
+  end
+end
 #-----------------------------------------------------------------------------
 
 def get_planets_from_api(planet_name)

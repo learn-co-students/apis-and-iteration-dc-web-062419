@@ -11,7 +11,7 @@ def search
   puts "2. Search a movie"
   puts "3. Search for a planet"
   puts "4. Search for a vehicle"
-  puts "5. Search for a straship"
+  puts "5. Search for a starship"
   puts "6. Search for a species"
   input = gets.chomp
 
