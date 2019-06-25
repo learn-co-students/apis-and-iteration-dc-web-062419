@@ -12,7 +12,7 @@ def get_character_movies_from_api(character_name)
   results_array = response_hash["results"]
   film_info = []
   results_array.each do |hash|
-    if hash["name"] == character_name
+    if hash["name"].downcase == character_name
       hash["films"].each do |url|
         film_string = RestClient.get(url)
         film_hash = JSON.parse(film_string)
@@ -30,18 +30,16 @@ end
 film_info
 end
 
-film_hash = get_character_movies_from_api("Luke Skywalker")
 
 def print_movies(films)
   # some iteration magic and puts out the movies in a nice list
 movie_list = films.map do |movie_hash|
  movie_hash["title"] 
- binding.pry
 end
 puts movie_list
 end
 
-print_movies(film_hash)
+
 
 def show_character_movies(character)
   films = get_character_movies_from_api(character)
