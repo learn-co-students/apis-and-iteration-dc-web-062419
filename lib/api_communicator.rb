@@ -14,6 +14,7 @@ def go_to_api
   x = JSON.parse(answer.body)
 end
 
+
 def find_films(character_from_user)
   characters_info = go_to_api
   characters_info["results"].each do |person_data|
@@ -23,13 +24,6 @@ def find_films(character_from_user)
   end
 end
 
-<<<<<<< HEAD
-def show_character_movies(character)
-  films = get_character_movies_from_api(character)
-  print_movies(films)
-  # binding.pry
-=======
-
 def print_movies(film_urls)
   film_array = [ ]
   film_urls.each do |film| 
@@ -37,7 +31,7 @@ def print_movies(film_urls)
     json = JSON.parse(answer.body)
     film_array << json
   end
->>>>>>> 70374fddd43a2f4929e71e080e457695bb119708
+  film_array
 end
 
 
