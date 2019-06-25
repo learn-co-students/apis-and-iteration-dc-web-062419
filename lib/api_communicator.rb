@@ -49,3 +49,52 @@ end
 
 # that `get_character_movies_from_api` method is probably pretty long. Does it do more than one job?
 # can you split it up into helper methods?
+
+
+
+def get_movie_from_api(movie_name)
+  #make the web request
+  
+  response_string = RestClient.get('http://www.swapi.co/api/films/')
+  response_hash = JSON.parse(response_string)
+
+  response_hash["results"].each do |movie|
+    if movie["title"].downcase.start_with?(movie_name)
+      return movie  
+    end  
+  end 
+end
+
+def show_movie_info(movie)
+  movie = [get_movie_from_api(movie)]
+  print_movies(movie)
+end
+
+def print_starships(starships)
+  # some iteration magic and puts out the movies in a nice list
+  starships.each do |starship|
+    puts "name: #{starship["name"]}"
+    puts "Model: #{starship["model"]}"
+    puts "Cost: $#{starship["cost_in_credits"]}"
+  
+  end
+end
+
+def get_starship_from_api(starship_name)
+  response_string = RestClient.get('http://www.swapi.co/api/starships/')
+  response_hash = JSON.parse(response_string)
+  response_hash["results"].each do |starship|
+    if starship["name"].downcase.start_with?(starship_name)
+      return starship
+      
+    end
+  end
+end
+
+  def show_starship_info(starship)
+    starship = [get_starship_from_api(starship)]
+    print_starships(starship)
+  end
+
+
+
