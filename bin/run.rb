@@ -4,15 +4,15 @@ require_relative "../lib/api_communicator.rb"
 require_relative "../lib/command_line_interface.rb"
 
 def search
-  puts "Welcom Star Wars fan!"
-  
+  puts "Welcome Star Wars fan!"
+
   puts "Enter the number of the option you want"
   puts "1. Search for a character"
   puts "2. Search a movie"
-  puts "3. Search for a planet" 
-  puts "4. Search for a vehicle" 
-  puts "5. Search for a straship" 
-  puts "6. Search for a species" 
+  puts "3. Search for a planet"
+  puts "4. Search for a vehicle"
+  puts "5. Search for a straship"
+  puts "6. Search for a species"
   input = gets.chomp
 
   case input
@@ -36,6 +36,13 @@ def search
     end
   when "3"
     puts "Search for a planet"
+    planet = gets.chomp.downcase
+    begin
+      show_planet_info(planet)
+    rescue
+      puts "Planet not found"
+      search
+    end
   when "4"
     puts "Enter a vehicle"
     vehicle = gets.chomp.downcase
@@ -55,13 +62,16 @@ def search
       search
     end
   when "6"
-    puts "Search for a planet"
+    puts "Search for a species"
+    species = gets.chomp.downcase
+    begin
+      show_species_info(species)
+    rescue
+      puts "Species not found"
+      search
+    end
   else
     puts "Invalid input"
   end
-
-  
-
 end
-
 search
